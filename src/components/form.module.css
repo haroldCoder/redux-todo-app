@@ -1,0 +1,22 @@
+.input{
+    border: 0;
+    background-color: #474747;
+    border-radius: 8px;
+    color: #FFF;
+    padding: 8px;
+}
+
+.btn{
+    background-color: #16a6ff;
+    padding: 8px;
+    border-radius: 10px;
+    color: #d2d2d2;
+}
+
+.form{
+    background-color: #c1c1c115;
+    padding: 20px;
+    border-radius: 15px;
+    flex-direction: column;
+    width: 290px;
+}

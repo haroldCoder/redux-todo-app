@@ -1,0 +1,30 @@
+.container{
+    background-color: #c1c1c10f;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.controller{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.button{
+    background-color: transparent;
+    padding: 0;
+}
+
+.container_delete{
+    -webkit-animation-name: delete;
+    -webkit-animation-duration: 1s;
+}
+
+@keyframes delete{
+    0% {transform: translateX(50px); padding: 5px;}
+    50% {transform: translateX(-80px); padding: 0px;}
+}
