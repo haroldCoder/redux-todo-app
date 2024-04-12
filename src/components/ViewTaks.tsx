@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IoIosRemoveCircle } from "react-icons/io";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import styles from "./view.module.css"
-import { todoActions } from '../store/tasks-slice';
+import { taskType, todoActions } from '../store/tasks-slice';
 
 export default function ViewTaks() {
-  const tasks: Array<string> = useSelector((state: any) => state.todo.tasks);
+  const tasks: Array<taskType> = useSelector((state: any) => state.todo.tasks);
   const dispatch = useDispatch();
   const [deletes, setDeletes] = useState<Array<boolean>>(new Array(tasks.length).fill(false));
 
@@ -35,9 +35,12 @@ export default function ViewTaks() {
     <>
       {
         tasks.map((tks, index) => (
-          <div key={index} className={`${styles.container} ${deletes[index] && styles.container_delete}`}>
+          <div key={index} onClick={()=>{dispatch(todoActions.modifyUpdate({status: true, id: index}))}} className={`${styles.container} ${deletes[index] && styles.container_delete}`}>
             <section style={{maxWidth: "150px"}}>
-              <h2 style={{color: "white"}}>{tks}</h2>
+              <h2 style={{color: "white"}}>{tks.name}</h2>
+              <p style={{"color": "white"}}>Limit time: <span style={{color: "#3A0AFF"}}>{
+                new Date(tks.date.toString()).getUTCDate()+"/"+(new Date(tks.date.toString()).getUTCMonth()+1)+"/"+new Date(tks.date.toString()).getUTCFullYear()
+              }</span></p>
             </section>
             <section className={styles.controller}>
               <button className={styles.button}>
