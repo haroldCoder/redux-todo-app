@@ -11,48 +11,57 @@ export default function ViewTaks() {
   const [deletes, setDeletes] = useState<Array<boolean>>(new Array(tasks.length).fill(false));
 
   console.log(tasks);
-  
-  const deleteTask = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, position: number) =>{
-    setDeletes((prev)=>{
+
+  const deleteTask = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, position: number) => {
+    setDeletes((prev) => {
       const newarray = [...prev];
 
       newarray[position] = true
       return newarray;
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       dispatch(todoActions.deleteTask(position));
-      setDeletes((prev)=>{
+      setDeletes((prev) => {
         const newarray = [...prev];
 
-      newarray[position] = false
-      return newarray;
+        newarray[position] = false
+        return newarray;
       })
     }, 1200);
     e.stopPropagation();
+  }
+
+  const EditStatusTask = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>,index: number) => {
+    e.stopPropagation();
+    dispatch(todoActions.updateTask({newtask: {status: true, date: tasks[index].date, name: tasks[index].name}, id: index}))
   }
 
   return (
     <>
       {
         tasks.map((tks, index) => (
-          <div key={index} onClick={()=>{dispatch(todoActions.modifyUpdate({status: true, id: index}))}} className={`${styles.container} ${deletes[index] && styles.container_delete}`}>
-            <section style={{maxWidth: "150px"}}>
-              <h2 style={{color: "white"}}>{tks.name}</h2>
-              <p style={{"color": "white"}}>Limit time: <span style={{color: "#3A0AFF"}}>{
-                new Date(tks.date.toString()).getUTCDate()+"/"+(new Date(tks.date.toString()).getUTCMonth()+1)+"/"+new Date(tks.date.toString()).getUTCFullYear()
+          <div key={index} onClick={() => { dispatch(todoActions.modifyUpdate({ status: true, id: index })) }} style={tks.status ? {background: "#03ffe140"} : {}} className={`${styles.container} ${deletes[index] && styles.container_delete}`}>
+            <section style={{ maxWidth: "150px" }}>
+              <h2 style={{ color: "white" }}>{tks.name}</h2>
+              <p style={{ "color": "white" }}>Limit time: <span style={{ color: "#3A0AFF" }}>{
+                new Date(tks.date.toString()).getUTCDate() + "/" + (new Date(tks.date.toString()).getUTCMonth() + 1) + "/" + new Date(tks.date.toString()).getUTCFullYear()
               }</span></p>
             </section>
             <section className={styles.controller}>
-              <button className={styles.button}>
-                <IoIosCheckmarkCircle style={{color: "#7DFF30", fontSize: "30px"}} />
-              </button>
-              <button className={styles.button} onClick={(e)=>deleteTask(e, index)}>
-                <IoIosRemoveCircle style={{color: "#DF5C44", fontSize: "30px"}} />
+              {
+                !tks.status &&
+                <button className={styles.button} onClick={(e)=> EditStatusTask(e, index)}>
+                  <IoIosCheckmarkCircle style={{ color: "#7DFF30", fontSize: "30px" }} />
+                </button>
+              }
+
+              <button className={styles.button} onClick={(e) => deleteTask(e, index)}>
+                <IoIosRemoveCircle style={{ color: "#DF5C44", fontSize: "30px" }} />
               </button>
             </section>
           </div>
         ))
-        }
+      }
     </>
   )
 }
